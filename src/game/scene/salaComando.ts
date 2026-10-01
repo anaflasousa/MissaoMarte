@@ -2,7 +2,10 @@ import Phaser from 'phaser';
 
 export class SalaComando extends Phaser.Scene {
 
+    // ==========================================
     // FALAS
+    // ==========================================
+
     private falas: string[] = [
         'Olá, Fulano(a)! Temos uma missão importante para você.',
         'Um de nossos CubeSats precisa ser enviado até Marte para iniciar uma missão de coleta de dados.',
@@ -13,7 +16,11 @@ export class SalaComando extends Phaser.Scene {
         'Está preparado?'
     ];
 
+
+    // ==========================================
     // CONTROLE DAS FALAS
+    // ==========================================
+
     private falaAtual = 0;
     private textoCompleto = '';
     private textoAtual = '';
@@ -21,39 +28,57 @@ export class SalaComando extends Phaser.Scene {
     private intervaloTexto?: Phaser.Time.TimerEvent;
 
 
+    // ==========================================
     // ELEMENTOS DA TELA
-    private personagem!:
-        Phaser.GameObjects.Image;
-    private textoFala!:
-        Phaser.GameObjects.Text;
-    private nomePersonagem!:
-        Phaser.GameObjects.Text;
-    private botaoProximo!:
-        Phaser.GameObjects.Text;
+    // ==========================================
+
+    private personagem!: Phaser.GameObjects.Image;
+
+    private textoFala!: Phaser.GameObjects.Text;
+
+    private nomePersonagem!: Phaser.GameObjects.Text;
+
+    private botaoProximo!: Phaser.GameObjects.Text;
+
 
     constructor() {
         super('CutsceneScene');
     }
 
+
+    // ==========================================
     // PRELOAD
+    // ==========================================
+
     preload() {
+
         this.load.image(
             'cenarioSalaComando',
             'src/assets/salaComando/cenario-SalaComando.webp'
         );
+
         this.load.image(
             'neutra',
             'src/assets/salaComando/neutra.png'
         );
+
         this.load.image(
             'falando',
             'src/assets/salaComando/falando.png'
         );
     }
 
+
+    // ==========================================
     // CREATE
+    // ==========================================
+
     create() {
+
+        // ==========================================
         // FUNDO
+        // ==========================================
+
         this.add
             .image(
                 this.scale.width / 2,
@@ -66,7 +91,10 @@ export class SalaComando extends Phaser.Scene {
             );
 
 
+        // ==========================================
         // PERSONAGEM
+        // ==========================================
+
         this.personagem =
             this.add.image(
                 this.scale.width / 2,
@@ -74,73 +102,108 @@ export class SalaComando extends Phaser.Scene {
                 'neutra'
             );
 
-        // IMPORTANTE: setScale mantém a proporção originalda imagem e evita que a personagem fique achatada.
         this.personagem.setScale(0.5);
 
+
+        // ==========================================
         // CAIXA DE DIÁLOGO
+        // ==========================================
+
+        const caixaLargura =
+            this.scale.width - 100;
+
+        const caixaAltura = 210;
+
+        const caixaX =
+            this.scale.width / 2;
+
+        const caixaY =
+            this.scale.height - 125;
+
+
         const caixaDialogo =
             this.add.rectangle(
-                this.scale.width / 2,
-                this.scale.height - 105,
-                this.scale.width - 100,
-                170,
+                caixaX,
+                caixaY,
+                caixaLargura,
+                caixaAltura,
                 0x0f172a,
-                0.96
+                0.97
             );
+
         caixaDialogo.setStrokeStyle(
-            1,
-            0x1e293b
+            2,
+            0x334155
         );
 
+
+        // ==========================================
         // NOME DA PERSONAGEM
+        // ==========================================
+
         this.nomePersonagem =
             this.add.text(
-                80,
-                this.scale.height - 150,
+                70,
+                caixaY - 98,
                 'Dr. Fulana',
                 {
-                    fontFamily: 'monospace',
-                    fontSize: '20px',
-                    color: '#60a5fa',
-                    fontStyle: 'bold'
+                    fontFamily: 'Arial',
+                    fontSize: '22px',
+                    color: '#ffffff',
+                    fontStyle: 'bold',
+                    backgroundColor: '#2563eb',
+                    padding: {
+                        left: 18,
+                        right: 18,
+                        top: 8,
+                        bottom: 8
+                    }
                 }
             );
 
+
+        // ==========================================
         // TEXTO DA FALA
+        // ==========================================
+
         this.textoFala =
             this.add.text(
-                80,
-                this.scale.height - 110,
+                75,
+                caixaY - 25,
                 '',
                 {
-                    fontFamily: 'monospace',
-                    fontSize: '19px',
+                    fontFamily: 'Arial',
+                    fontSize: '21px',
                     color: '#ffffff',
                     wordWrap: {
                         width:
-                            this.scale.width - 280
+                            caixaLargura - 330
                     },
                     lineSpacing: 8
                 }
             );
 
-        // BOTÃO
+
+        // ==========================================
+        // BOTÃO DE CONTINUAR
+        // ==========================================
+
         this.botaoProximo =
             this.add.text(
-                this.scale.width - 150,
-                this.scale.height - 105,
-                'PRÓXIMO',
+                caixaX + caixaLargura / 2 - 115,
+                caixaY + 65,
+                'CONTINUAR',
                 {
                     fontFamily: 'Arial',
-                    fontSize: '17px',
+                    fontSize: '20px',
                     color: '#ffffff',
-                    backgroundColor: '#3b82f6',
+                    backgroundColor: '#2563eb',
                     fontStyle: 'bold',
                     padding: {
-                        left: 22,
-                        right: 22,
-                        top: 14,
-                        bottom: 14
+                        left: 24,
+                        right: 24,
+                        top: 15,
+                        bottom: 15
                     }
                 }
             )
@@ -149,46 +212,103 @@ export class SalaComando extends Phaser.Scene {
                     useHandCursor: true
                 });
 
+
+        // ==========================================
+        // SOMBRA DO BOTÃO
+        // ==========================================
+
+        this.botaoProximo.setShadow(
+            3,
+            3,
+            '#000000',
+            5,
+            true,
+            true
+        );
+
+
+        // ==========================================
         // EFEITO DO BOTÃO
+        // ==========================================
+
         this.botaoProximo.on(
             'pointerover',
             () => {
 
                 this.botaoProximo
                     .setBackgroundColor(
-                        '#2563eb'
-                    );
-            }
-        );
-        this.botaoProximo.on(
-            'pointerout',
-            () => {
-                this.botaoProximo
-                    .setBackgroundColor(
                         '#3b82f6'
                     );
+
+                this.botaoProximo
+                    .setScale(1.05);
             }
         );
 
+
+        this.botaoProximo.on(
+            'pointerout',
+            () => {
+
+                if (
+                    this.falaAtual ===
+                    this.falas.length - 1
+                ) {
+
+                    this.botaoProximo
+                        .setBackgroundColor(
+                            '#16a34a'
+                        );
+
+                } else {
+
+                    this.botaoProximo
+                        .setBackgroundColor(
+                            '#2563eb'
+                        );
+                }
+
+                this.botaoProximo
+                    .setScale(1);
+            }
+        );
+
+
+        // ==========================================
         // CLIQUE
+        // ==========================================
+
         this.botaoProximo.on(
             'pointerdown',
             () => {
 
+                this.botaoProximo
+                    .setScale(0.97);
+
                 this.clicarProximo();
             }
         );
+
+
+        // ==========================================
         // COMEÇA A PRIMEIRA FALA
+        // ==========================================
+
         this.iniciarFala();
     }
 
 
+    // ==========================================
     // INICIAR FALA
+    // ==========================================
+
     private iniciarFala() {
 
         // Cancela qualquer escrita anterior
         if (this.intervaloTexto) {
+
             this.intervaloTexto.remove();
+
             this.intervaloTexto =
                 undefined;
         }
@@ -197,116 +317,194 @@ export class SalaComando extends Phaser.Scene {
         // Pega a fala atual
         this.textoCompleto =
             this.falas[this.falaAtual];
+
         this.textoAtual = '';
+
         this.escrevendo = true;
 
+
+        // ==========================================
         // PERSONAGEM COMEÇA A FALAR
+        // ==========================================
+
         this.personagem
             .setTexture('falando');
 
+
+        // ==========================================
         // LIMPA TEXTO
+        // ==========================================
+
         this.textoFala
             .setText('');
 
-        // BOTÃO
-        this.botaoProximo
-            .setText('PRÓXIMO');
 
+        // ==========================================
+        // BOTÃO
+        // ==========================================
+
+        this.botaoProximo
+            .setText('CONTINUAR');
+
+        this.botaoProximo
+            .setBackgroundColor(
+                '#2563eb'
+            );
+
+
+        // ==========================================
         // EFEITO DE DIGITAÇÃO
+        // ==========================================
+
         let indice = 0;
+
         this.intervaloTexto =
             this.time.addEvent({
+
                 delay: 35,
+
                 loop: true,
+
                 callback: () => {
+
                     if (
                         indice <
                         this.textoCompleto.length
                     ) {
+
                         this.textoAtual +=
-                            this.textoCompleto[indice];
+                            this.textoCompleto[
+                                indice
+                            ];
+
                         this.textoFala
                             .setText(
                                 this.textoAtual
                             );
+
                         indice++;
+
                     } else {
+
                         this.terminarEscrita();
                     }
                 }
             });
     }
 
+
+    // ==========================================
     // TERMINAR ESCRITA
+    // ==========================================
+
     private terminarEscrita() {
+
         if (
             this.intervaloTexto
         ) {
+
             this.intervaloTexto.remove();
+
             this.intervaloTexto =
                 undefined;
         }
+
+
         this.textoAtual =
             this.textoCompleto;
+
+
         this.textoFala
             .setText(
                 this.textoCompleto
             );
+
+
         this.escrevendo =
             false;
 
+
+        // ==========================================
         // PERSONAGEM PARA DE FALAR
+        // ==========================================
+
         this.personagem
             .setTexture('neutra');
 
+
+        // ==========================================
         // ÚLTIMA FALA
+        // ==========================================
+
         if (
             this.falaAtual ===
             this.falas.length - 1
         ) {
+
             this.botaoProximo
-                .setText('COMEÇAR');
+                .setText(
+                    'COMEÇAR'
+                );
+
             this.botaoProximo
                 .setBackgroundColor(
-                    '#22c55e'
+                    '#16a34a'
                 );
         }
     }
 
 
-    // BOTÃO PRÓXIMO
+    // ==========================================
+    // BOTÃO CONTINUAR
+    // ==========================================
+
     private clicarProximo() {
+
         // SE AINDA ESTÁ ESCREVENDO
         if (this.escrevendo) {
-            // Primeiro clique:
-            // termina a frase imediatamente.
+
             this.terminarEscrita();
+
             return;
         }
+
 
         // SE É A ÚLTIMA FALA
         if (
             this.falaAtual ===
             this.falas.length - 1
         ) {
+
             this.scene.start(
                 'FogueteScene'
             );
+
             return;
         }
 
+
+        // ==========================================
         // PRÓXIMA FALA
+        // ==========================================
+
         this.falaAtual++;
+
         this.iniciarFala();
     }
 
+
+    // ==========================================
     // LIMPEZA
+    // ==========================================
+
     shutdown() {
 
         if (
             this.intervaloTexto
         ) {
+
             this.intervaloTexto.remove();
+
             this.intervaloTexto =
                 undefined;
         }

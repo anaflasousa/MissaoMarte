@@ -14,37 +14,51 @@ export class InterfaceFase1 {
     }
 
     // CRIAR BLOCKLY
-    criarBlockly() {
-        this.blocklyDiv =
-            document.createElement('div');
-        this.blocklyDiv.style.position =
-            'absolute';
-        this.blocklyDiv.style.left =
-            '20px';
-        this.blocklyDiv.style.top =
-            '75px';
-        this.blocklyDiv.style.width =
-            '40%';
-        this.blocklyDiv.style.height =
-            'calc(100vh - 150px)';
-        this.blocklyDiv.style.backgroundColor =
-            '#0f172a';
-        this.blocklyDiv.style.border =
-            '2px solid #334155';
-        this.blocklyDiv.style.borderRadius =
-            '16px';
-        this.blocklyDiv.style.overflow =
-            'hidden';
-        this.blocklyDiv.style.zIndex =
-            '5';
-        document.body.appendChild(
+criarBlockly() {
+
+    this.blocklyDiv =
+        document.createElement('div');
+
+    this.blocklyDiv.style.position =
+        'absolute';
+
+    this.blocklyDiv.style.left =
+        '20px';
+
+    this.blocklyDiv.style.top =
+        '75px';
+
+    // JANELA MENOR
+    this.blocklyDiv.style.width =
+        '30%';
+
+    this.blocklyDiv.style.height =
+        'calc(100vh - 100px)';
+
+    this.blocklyDiv.style.backgroundColor =
+        '#0f172a';
+
+    this.blocklyDiv.style.border =
+        '2px solid #334155';
+
+    this.blocklyDiv.style.borderRadius =
+        '16px';
+
+    this.blocklyDiv.style.overflow =
+        'hidden';
+
+    this.blocklyDiv.style.zIndex =
+        '5';
+
+    document.body.appendChild(
+        this.blocklyDiv
+    );
+
+    this.blockly =
+        new BlocklyWorkspace(
             this.blocklyDiv
         );
-        this.blockly =
-            new BlocklyWorkspace(
-                this.blocklyDiv
-            );
-    }
+}
 
     // PEGAR COMANDOS
     getCommands(): string[] {
