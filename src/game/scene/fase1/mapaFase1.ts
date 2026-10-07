@@ -4,6 +4,10 @@ export interface ObjetosMapaFase1 {
     cubesat: Phaser.GameObjects.Rectangle;
     marte: Phaser.GameObjects.Arc;
     obstaculos: Phaser.GameObjects.Arc[];
+
+    tamanhoCelula: number;
+    inicioX: number;
+    inicioY: number;
 }
 
 export function criarMapaFase1(
@@ -36,6 +40,8 @@ export function criarMapaFase1(
 
     const mapaAltura =
         scene.scale.height - 140;
+
+        
 
 
     // ==========================================
@@ -261,6 +267,9 @@ export function criarMapaFase1(
     return {
         cubesat,
         marte,
-        obstaculos
+        obstaculos,
+        tamanhoCelula,
+        inicioX,
+        inicioY
     };
 }

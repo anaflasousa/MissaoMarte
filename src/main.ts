@@ -5,7 +5,6 @@ import { SalaComando } from './game/scene/salaComando';
 import { FogueteScene } from './game/scene/fogueteScene';
 import { TransicaoScene } from './game/scene/transicoes';
 import { Fase1Scene } from './game/scene/fase1/fase1Scene';
-
  import { Fase2Scene } from './game/scene/fase2Scene';
 // import { Fase3Scene } from './game/scene/fase3Scene';
 

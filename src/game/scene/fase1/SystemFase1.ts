@@ -18,15 +18,18 @@ export class SystemFase1 {
 
     private aoFalhar: (motivo: string) => void;
 
+    private tamanhoCelula: number;
 
-    constructor(
-        scene: Phaser.Scene,
-        cubesat: Phaser.GameObjects.Rectangle,
-        marte: Phaser.GameObjects.Arc,
-        obstaculos: Phaser.GameObjects.Arc[],
-        aoSucesso: () => void,
-        aoFalhar: (motivo: string) => void
-    ) {
+
+ constructor(
+    scene: Phaser.Scene,
+    cubesat: Phaser.GameObjects.Rectangle,
+    marte: Phaser.GameObjects.Arc,
+    obstaculos: Phaser.GameObjects.Arc[],
+    tamanhoCelula: number,
+    aoSucesso: () => void,
+    aoFalhar: (motivo: string) => void
+)  {
 
         this.scene = scene;
 
@@ -39,6 +42,8 @@ export class SystemFase1 {
         this.aoSucesso = aoSucesso;
 
         this.aoFalhar = aoFalhar;
+
+        this.tamanhoCelula = tamanhoCelula;
     }
 
 
@@ -193,53 +198,47 @@ export class SystemFase1 {
     // ==========================================
 
     private avancar(
-        proximo: () => void
-    ) {
+    proximo: () => void
+) {
 
-        const distancia = 100;
+    const distancia = this.tamanhoCelula;
 
-        let novoX = this.cubesat.x;
+    let novoX = this.cubesat.x;
+    let novoY = this.cubesat.y;
 
-        let novoY = this.cubesat.y;
+    if (this.direcao === 0) {
 
+        novoX += distancia;
 
-        if (this.direcao === 0) {
+    } else if (this.direcao === 90) {
 
-            novoX += distancia;
+        novoY += distancia;
 
-        } else if (this.direcao === 90) {
+    } else if (this.direcao === 180) {
 
-            novoY += distancia;
+        novoX -= distancia;
 
-        } else if (this.direcao === 180) {
+    } else if (this.direcao === 270) {
 
-            novoX -= distancia;
-
-        } else if (this.direcao === 270) {
-
-            novoY -= distancia;
-        }
-
-
-        this.scene.tweens.add({
-
-            targets: this.cubesat,
-
-            x: novoX,
-
-            y: novoY,
-
-            duration: 700,
-
-            ease: 'Power1',
-
-            onComplete: () => {
-
-                proximo();
-
-            }
-        });
+        novoY -= distancia;
     }
+
+    this.scene.tweens.add({
+
+        targets: this.cubesat,
+
+        x: novoX,
+        y: novoY,
+
+        duration: 700,
+
+        ease: 'Power1',
+
+        onComplete: () => {
+            proximo();
+        }
+    });
+}
 
 
     // ==========================================

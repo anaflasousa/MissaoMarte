@@ -67,7 +67,6 @@ export class BlocklyWorkspace {
             }
         };
 
-
         // TOOLBOX
         const toolbox = {
             kind: 'flyoutToolbox',
@@ -91,7 +90,6 @@ export class BlocklyWorkspace {
                 }
             ]
         };
-
 
 
         // WORKSPACE
